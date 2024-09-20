@@ -6,7 +6,8 @@ urlpatterns = [
     path('login', views.login),
     path('boards', views.boards),
     # TODO Start: [Student] add routing paths for `boards/<index>` and `user/<userName>`
-
+    path('boards/<index>', views.board),
+    path('user/<userName>', views.user),
     # TODO End: [Student] add routing paths for `boards/<index>` and `user/<userName>`
 
 ]
