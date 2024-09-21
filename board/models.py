@@ -47,7 +47,7 @@ class Board(models.Model):
     # Create index on board_name
     # Create unique_together on user and board_name
     class Meta:
-        Indexes = [models.Index(fields=["board_name"])]
+        indexes = [models.Index(fields=["board_name"])]
         unique_together = ["user", "board_name"]
     
     # TODO End: [Student] Finish the model of Board
