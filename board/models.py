@@ -49,7 +49,6 @@ class Board(models.Model):
     class Meta:
         indexes = [models.Index(fields=["board_name"])]
         unique_together = ["user", "board_name"]
-    
     # TODO End: [Student] Finish the model of Board
 
 
