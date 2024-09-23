@@ -99,11 +99,11 @@ def boards(req: HttpRequest):
         # First check jwt_token. If not exists, return code 2, "Invalid or expired JWT", http status code 401
         if not jwt_token:
             return request_failed(2, "Invalid or expired JWT", 401)
-        # Then invoke `check_for_board_data` to check the body data and get the board_state, board_name and user_name. Check the user_name with the username in jwt_token_payload. If not match, return code 3, "Permission denied", http status code 403
-        try:
-            jwt_token_payload = check_jwt_token(jwt_token)
-        except:
+        jwt_token_payload = check_jwt_token(jwt_token)
+        if not jwt_token_payload:
             return request_failed(2, "Invalid or expired JWT", 401)
+
+        # Then invoke `check_for_board_data` to check the body data and get the board_state, board_name and user_name. Check the user_name with the username in jwt_token_payload. If not match, return code 3, "Permission denied", http status code 403
         board, board_name, user_name = check_for_board_data(body)
         if jwt_token_payload["username"] != user_name:
             return request_failed(3, "Permission denied", 403)
@@ -158,6 +158,8 @@ def boards_index(req: HttpRequest, index: any):
         if not board:
             return request_failed(1, "Board not found", 404)
         jwt_token_payload = check_jwt_token(jwt_token)
+        if not jwt_token_payload:
+            return request_failed(2, "Invalid or expired JWT", 401)
         if jwt_token_payload["username"] != board.user.name:
             return request_failed(3, "Cannot delete board of other users", 403)
         board.delete()
