@@ -118,10 +118,10 @@ def boards(req: HttpRequest):
             return request_success({"isCreate": True})
         ## If exists, change corresponding value of current `board`, then save it to the database.
         else:
-            board = Board.objects.filter(user=user, board_name=board_name).first()
-            board.board_state = board
-            board.save()
-            return request_success({"isCreate": True})
+            old_board = Board.objects.filter(user=user, board_name=board_name).first()
+            old_board.board_state = board
+            old_board.save()
+            return request_success({"isCreate": False})
         
         return request_failed(1, "Not implemented", 501)
         
